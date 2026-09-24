@@ -1,0 +1,4 @@
+node_modules/
+dist/
+scripts/.export-smoke.mjs
+scripts/export-out.txt
