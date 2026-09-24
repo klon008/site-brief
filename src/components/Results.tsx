@@ -1,9 +1,33 @@
 import { useMemo, useState } from 'react';
+import {
+  ArrowLeft,
+  Check,
+  Copy,
+  Download,
+  FileJson,
+  FileText,
+  Lock,
+  PartyPopper,
+  Printer,
+  Trash2,
+  Wrench,
+} from 'lucide-react';
 import type { Answers } from '../model';
-import type { Stats } from '../lib/logic';
+import type { Stats, Status } from '../lib/logic';
 import { STATUS_META, statusOf, visibleQuestions, visibleSections } from '../lib/logic';
 import { buildClientBrief, buildJson, buildSpec, copyText, downloadFile, projectSlug } from '../lib/exporters';
 import { briefFileName, buildEncryptedBrief } from '../lib/crypto';
+
+const Dot = ({ status }: { status: Status }) => <span className={`dot dot-${status}`} aria-hidden="true" />;
+
+const StatCard = ({ status, count, label }: { status: Status; count: number; label: string }) => (
+  <div className="stat">
+    <span className="stat-num">{count}</span>
+    <span className="stat-label">
+      <Dot status={status} /> {label}
+    </span>
+  </div>
+);
 
 interface Props {
   answers: Answers;
@@ -43,13 +67,15 @@ function ClientResults({ answers, stats, onBack, onReset }: { answers: Answers; 
   return (
     <div className="results">
       <header className="results-head no-print">
-        <h1>Бриф заполнен 🎉</h1>
+        <h1>
+          Бриф заполнен <PartyPopper size={26} className="inline-icon accent" />
+        </h1>
         <p className="muted">Остался один шаг — отправить мне файл с вашими ответами.</p>
 
         <div className="stats-row">
-          <div className="stat"><span className="stat-num">{stats.done}</span><span className="stat-label">🟢 Решено</span></div>
-          <div className="stat"><span className="stat-num">{stats.unsure}</span><span className="stat-label">🟡 Не уверен</span></div>
-          <div className="stat"><span className="stat-num">{stats.open}</span><span className="stat-label">🔴 Открыто</span></div>
+          <StatCard status="done" count={stats.done} label="Решено" />
+          <StatCard status="unsure" count={stats.unsure} label="Не уверен" />
+          <StatCard status="open" count={stats.open} label="Открыто" />
         </div>
 
         <div className="instructions-box">
@@ -58,22 +84,24 @@ function ClientResults({ answers, stats, onBack, onReset }: { answers: Answers; 
             <li>Нажмите кнопку ниже — скачается файл с вашими ответами.</li>
             <li>Отправьте этот файл мне любым удобным способом: Telegram или email.</li>
           </ol>
-          <p className="instructions-note">🔒 Файл зашифрован — прочитать его смогу только я. Название и ответы не видны нигде в самом файле.</p>
+          <p className="instructions-note">
+            <Lock size={13} className="inline-icon" /> Файл зашифрован — прочитать его смогу только я. Название и ответы не видны нигде в самом файле.
+          </p>
         </div>
 
         <div className="client-actions">
           <button type="button" className="btn btn-primary btn-lg" onClick={handleDownload} disabled={busy}>
-            {busy ? 'Готовим файл…' : downloaded ? '⬇ Скачать файл ещё раз' : '⬇ Скачать файл с ответами'}
+            <Download size={18} /> {busy ? 'Готовим файл…' : downloaded ? 'Скачать файл ещё раз' : 'Скачать файл с ответами'}
           </button>
-          {downloaded && <p className="muted small">Файл скачан. Не забудьте его отправить 🙂</p>}
+          {downloaded && <p className="muted small">Файл скачан. Не забудьте его отправить.</p>}
         </div>
 
         <div className="results-footer no-print">
           <button type="button" className="btn btn-ghost" onClick={onBack}>
-            ← Вернуться к ответам
+            <ArrowLeft size={16} /> Вернуться к ответам
           </button>
           <button type="button" className="btn btn-danger-ghost" onClick={onReset}>
-            🗑 Удалить мои данные из этого браузера
+            <Trash2 size={16} /> Удалить мои данные из этого браузера
           </button>
         </div>
       </header>
@@ -123,18 +151,18 @@ function AdminResults({
         </p>
 
         <div className="stats-row">
-          <div className="stat"><span className="stat-num">{stats.done}</span><span className="stat-label">🟢 Решено</span></div>
-          <div className="stat"><span className="stat-num">{stats.unsure}</span><span className="stat-label">🟡 Не уверен</span></div>
-          <div className="stat"><span className="stat-num">{stats.open}</span><span className="stat-label">🔴 Открыто</span></div>
-          <div className="stat"><span className="stat-num">{stats.na}</span><span className="stat-label">⚪ Не относится</span></div>
+          <StatCard status="done" count={stats.done} label="Решено" />
+          <StatCard status="unsure" count={stats.unsure} label="Не уверен" />
+          <StatCard status="open" count={stats.open} label="Открыто" />
+          <StatCard status="na" count={stats.na} label="Не относится" />
         </div>
 
         <div className="tabs">
           <button type="button" className={`tab ${tab === 'brief' ? 'active' : ''}`} onClick={() => setTab('brief')}>
-            📄 Client Brief <small>бриф клиента</small>
+            <span className="tab-title"><FileText size={16} /> Client Brief</span> <small>бриф клиента</small>
           </button>
           <button type="button" className={`tab ${tab === 'spec' ? 'active' : ''}`} onClick={() => setTab('spec')}>
-            🛠 Internal Spec <small>внутренняя спека</small>
+            <span className="tab-title"><Wrench size={16} /> Internal Spec</span> <small>внутренняя спека</small>
           </button>
         </div>
 
@@ -144,23 +172,23 @@ function AdminResults({
             className="btn btn-outline"
             onClick={() => (tab === 'brief' ? downloadFile(`brief-${slug}.md`, briefMd) : downloadFile(`spec-${slug}.md`, specMd))}
           >
-            ⬇ Скачать {tab === 'brief' ? 'бриф' : 'спеку'} (.md)
+            <Download size={16} /> Скачать {tab === 'brief' ? 'бриф' : 'спеку'} (.md)
           </button>
           <button type="button" className="btn btn-outline" onClick={handleCopy}>
-            {copied ? '✓ Скопировано' : '📋 Копировать'}
+            {copied ? <Check size={16} /> : <Copy size={16} />} {copied ? 'Скопировано' : 'Копировать'}
           </button>
           <button type="button" className="btn btn-outline" onClick={() => window.print()}>
-            🖨 Печать / PDF
+            <Printer size={16} /> Печать / PDF
           </button>
           <button
             type="button"
             className="btn btn-outline"
             onClick={() => downloadFile(`brief-${slug}.json`, buildJson(answers), 'application/json')}
           >
-            💾 JSON
+            <FileJson size={16} /> JSON
           </button>
           <button type="button" className="btn btn-ghost" onClick={onExit}>
-            ← Загрузить другой бриф
+            <ArrowLeft size={16} /> Загрузить другой бриф
           </button>
         </div>
       </header>
@@ -205,7 +233,11 @@ function BriefDoc({ answers }: { answers: Answers }) {
                   <strong>{q.num}. {q.label}</strong>
                 </p>
                 <p className={`doc-a ${text ? '' : 'doc-a-empty'}`}>{body}</p>
-                {!text && <p className="doc-status">{meta.icon} {meta.label}</p>}
+                {!text && (
+                  <p className="doc-status">
+                    <Dot status={st} /> {meta.label}
+                  </p>
+                )}
               </div>
             );
           })}
@@ -231,7 +263,8 @@ function SpecDoc({ answers, stats }: { answers: Answers; stats: Stats }) {
         Сформирован автоматически из брифа · {new Date().toLocaleDateString('ru-RU')}
       </p>
       <p className="doc-meta">
-        🟢 Решено: {stats.done} · 🟡 Не уверен: {stats.unsure} · 🔴 Открыто: {stats.open} · ⚪ Не относится: {stats.na}
+        <Dot status="done" /> Решено: {stats.done} · <Dot status="unsure" /> Не уверен: {stats.unsure} ·{' '}
+        <Dot status="open" /> Открыто: {stats.open} · <Dot status="na" /> Не относится: {stats.na}
       </p>
       <table className="spec-table">
         <thead>
@@ -273,7 +306,9 @@ function SpecDoc({ answers, stats }: { answers: Answers; stats: Stats }) {
                   <td>{q.num}</td>
                   <td>{q.area}</td>
                   <td>{full}</td>
-                  <td className="spec-status">{meta.icon} {meta.label}</td>
+                  <td className="spec-status">
+                    <Dot status={st} /> {meta.label}
+                  </td>
                   <td>{need}</td>
                 </tr>,
               );
@@ -296,7 +331,7 @@ function OpenList({ answers }: { answers: Answers }) {
       if (st === 'open' || st === 'unsure') items.push({ label: `${q.num}. ${q.label}`, action: q.action ?? 'Обсудить' });
     }
   }
-  if (items.length === 0) return <p>Открытых вопросов нет — все ключевые решения приняты. 🎉</p>;
+  if (items.length === 0) return <p>Открытых вопросов нет — все ключевые решения приняты.</p>;
   return (
     <ol className="open-list">
       {items.map((it) => (

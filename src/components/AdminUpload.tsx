@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { FileUp, TriangleAlert } from 'lucide-react';
 import { readBriefFile, type BriefFilePayload } from '../lib/crypto';
 
 interface Props {
@@ -50,7 +51,9 @@ export default function AdminUpload({ onLoaded, onExit }: Props) {
           void handleFile(e.dataTransfer.files?.[0]);
         }}
       >
-        <p className="dropzone-icon">📥</p>
+        <p className="dropzone-icon">
+          <FileUp size={40} strokeWidth={1.6} />
+        </p>
         <p><strong>Перетащите файл сюда</strong> или нажмите, чтобы выбрать</p>
         <p className="muted small">{busy ? 'Читаем и расшифровываем…' : 'Файл никуда не отправляется — открывается локально'}</p>
       </div>
@@ -66,7 +69,11 @@ export default function AdminUpload({ onLoaded, onExit }: Props) {
         }}
       />
 
-      {error && <p className="admin-error">⚠ {error}</p>}
+      {error && (
+        <p className="admin-error">
+          <TriangleAlert size={15} className="inline-icon" /> {error}
+        </p>
+      )}
 
       <div className="admin-footer">
         <button type="button" className="btn btn-ghost" onClick={onExit}>

@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { FileText, Paperclip } from 'lucide-react';
 import type { Answer, Confidence, Question } from '../model';
 import { CONFIDENCE_META } from '../lib/logic';
 import { DONT_KNOW, OTHER } from '../data/questions';
@@ -134,7 +135,7 @@ export default function QuestionField({ q, answer, onChange, error }: Props) {
         {q.type === 'files' && (
           <div className="files">
             <button type="button" className="btn btn-outline" disabled={na} onClick={() => fileInputRef.current?.click()}>
-              📎 Выбрать файлы
+              <Paperclip size={16} /> Выбрать файлы
             </button>
             <input
               ref={fileInputRef}
@@ -153,7 +154,9 @@ export default function QuestionField({ q, answer, onChange, error }: Props) {
               <ul className="file-list">
                 {answer!.fileNames!.map((name) => (
                   <li key={name}>
-                    <span>📄 {name}</span>
+                    <span className="file-name">
+                      <FileText size={14} /> {name}
+                    </span>
                     <button
                       type="button"
                       aria-label={`Убрать ${name}`}

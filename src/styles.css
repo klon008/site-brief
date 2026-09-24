@@ -160,8 +160,16 @@ button {
   gap: 12px;
 }
 
-.brand { font-weight: 700; font-size: 15.5px; }
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 15.5px;
+}
+.brand svg { color: var(--accent); }
 .header-right { display: flex; gap: 14px; align-items: center; }
+.saved-note { display: inline-flex; align-items: center; gap: 5px; }
 
 .progress-bar { height: 3px; background: var(--border); }
 .progress-fill { height: 100%; background: var(--accent); transition: width 0.3s ease; }
@@ -172,16 +180,40 @@ button {
   border-bottom: 1px solid var(--border);
 }
 
-.stepper-track {
+.stepper-inner {
   max-width: 880px;
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.step-arrow {
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 6px 2px;
+  display: inline-flex;
+  align-items: center;
+}
+.step-arrow:hover:not(:disabled) { color: var(--accent); }
+.step-arrow:disabled { opacity: 0.25; cursor: default; }
+
+.stepper-track {
+  flex: 1;
+  min-width: 0;
   padding: 8px 16px;
   display: flex;
   gap: 6px;
   overflow-x: auto;
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  scrollbar-color: #cdd2df transparent;
 }
-.stepper-track::-webkit-scrollbar { display: none; }
+.stepper-track::-webkit-scrollbar { height: 6px; }
+.stepper-track::-webkit-scrollbar-track { background: transparent; }
+.stepper-track::-webkit-scrollbar-thumb { background: #cdd2df; border-radius: 3px; }
+.stepper-track::-webkit-scrollbar-thumb:hover { background: #b6bccb; }
 
 .step {
   display: flex;
@@ -217,13 +249,32 @@ button {
 }
 .step.current .step-num { background: var(--accent); color: #fff; }
 
+/* ─────────── Иконки и точки статусов ─────────── */
+.inline-icon {
+  display: inline-block;
+  vertical-align: -2px;
+}
+.inline-icon.accent { color: var(--accent); }
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  vertical-align: -1px;
+}
+.dot-done { background: var(--green); }
+.dot-unsure { background: var(--yellow); }
+.dot-open { background: var(--red); }
+.dot-na { background: #9ca3af; }
+
 /* ─────────── Контент шага ─────────── */
 .container { max-width: 880px; margin: 0 auto; padding: 28px 20px 80px; }
 
 .section-head { margin-bottom: 24px; }
 .section-kicker { color: var(--accent); font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 6px; }
 .section-head h1 { font-size: 28px; margin: 0 0 8px; display: flex; align-items: center; gap: 10px; }
-.section-icon { font-size: 26px; }
+.section-icon { display: inline-flex; color: var(--accent); }
 .section-intro { color: var(--muted); margin: 0; max-width: 640px; }
 
 .group-title {
@@ -329,6 +380,8 @@ button {
   padding: 6px 12px;
   font-size: 14px;
 }
+.file-name { display: inline-flex; align-items: center; gap: 7px; }
+.file-name svg { color: var(--muted); flex-shrink: 0; }
 .file-list button {
   border: none;
   background: none;
@@ -391,6 +444,8 @@ button {
   gap: 2px;
 }
 .tab small { font-weight: 500; font-size: 12px; }
+.tab { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.tab-title { display: inline-flex; align-items: center; gap: 8px; }
 .tab.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 
 .results-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
@@ -434,7 +489,7 @@ button {
   transition: border-color 0.15s, background 0.15s;
 }
 .dropzone:hover, .dropzone.over { border-color: var(--accent); background: var(--accent-soft); }
-.dropzone-icon { font-size: 34px; margin: 0 0 6px; }
+.dropzone-icon { color: var(--accent); margin: 0 0 6px; }
 .dropzone p { margin: 4px 0; }
 
 .admin-error {

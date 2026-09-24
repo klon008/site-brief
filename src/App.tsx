@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { PenLine, Save } from 'lucide-react';
 import type { Answer, Answers } from './model';
 import { SECTIONS } from './data/questions';
 import { hasValue, statsOf, visibleQuestions, visibleSections } from './lib/logic';
@@ -193,9 +194,15 @@ export default function App() {
     <div className="app">
       <header className="app-header no-print">
         <div className="app-header-inner">
-          <span className="brand">📝 Бриф на разработку сайта</span>
+          <span className="brand">
+            <PenLine size={17} /> Бриф на разработку сайта
+          </span>
           <span className="header-right muted small">
-            {savedAt && <span title="Черновик сохраняется автоматически">💾 сохранено</span>}
+            {savedAt && (
+              <span title="Черновик сохраняется автоматически" className="saved-note">
+                <Save size={13} /> сохранено
+              </span>
+            )}
             <span>{answeredCount}/{totalCount} · {progress}%</span>
           </span>
         </div>

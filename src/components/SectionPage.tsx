@@ -1,4 +1,6 @@
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import type { Answer, Answers, Section } from '../model';
+import SectionIcon from './SectionIcon';
 import QuestionField from './QuestionField';
 
 interface Props {
@@ -25,7 +27,10 @@ export default function SectionPage({
           Шаг {displayNumber} из {total}
         </p>
         <h1>
-          <span className="section-icon">{section.icon}</span> {section.title}
+          <span className="section-icon">
+            <SectionIcon id={section.id} size={26} />
+          </span>
+          {section.title}
         </h1>
         {section.intro && <p className="section-intro">{section.intro}</p>}
       </header>
@@ -43,10 +48,10 @@ export default function SectionPage({
 
       <div className="nav-buttons no-print">
         <button type="button" className="btn btn-ghost" onClick={onBack} disabled={isFirst}>
-          ← Назад
+          <ArrowLeft size={16} /> Назад
         </button>
         <button type="button" className="btn btn-primary" onClick={onNext}>
-          {isLast ? 'Завершить бриф ✓' : 'Далее →'}
+          {isLast ? 'Завершить бриф' : 'Далее'} <ArrowRight size={16} />
         </button>
       </div>
     </div>

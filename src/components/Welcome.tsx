@@ -1,3 +1,5 @@
+import { ArrowRight, Hand } from 'lucide-react';
+
 interface Props {
   hasDraft: boolean;
   draftInfo?: { answered: number; total: number; updatedAt?: string };
@@ -9,7 +11,9 @@ export default function Welcome({ hasDraft, draftInfo, onStart, onContinue }: Pr
   return (
     <div className="welcome">
       <div className="welcome-card">
-        <p className="welcome-hello">Привет! 👋</p>
+        <p className="welcome-hello">
+          Привет! <Hand size={18} className="inline-icon" />
+        </p>
         <h1>Бриф на разработку сайта</h1>
         <p className="welcome-text">
           Перед началом работы мне важно понять ваш бизнес, задачи и ожидания от будущего сайта.
@@ -43,9 +47,9 @@ export default function Welcome({ hasDraft, draftInfo, onStart, onContinue }: Pr
               </button>
             </>
           ) : (
-            <button type="button" className="btn btn-primary btn-lg" onClick={onStart}>
-              Начать бриф →
-            </button>
+              <button type="button" className="btn btn-primary btn-lg" onClick={onStart}>
+                Начать бриф <ArrowRight size={18} />
+              </button>
           )}
         </div>
         {hasDraft && draftInfo?.updatedAt && (

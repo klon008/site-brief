@@ -24,7 +24,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'company',
     title: 'О компании',
-    icon: '🏢',
+    icon: 'company',
     intro: 'Расскажите о себе — так я буду знать, с кем работаю, и куда отправлять материалы.',
     questions: [
       { id: 'q1', num: 1, type: 'text', label: 'Ваше имя', area: 'Клиент', required: true, noStatus: true, placeholder: 'Иван Петров' },
@@ -80,7 +80,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'goal',
     title: 'Задача сайта',
-    icon: '🎯',
+    icon: 'goal',
     intro: 'Самый важный блок. От целей зависит структура, функционал и стоимость проекта.',
     questions: [
       {
@@ -144,7 +144,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'clients',
     title: 'Клиенты',
-    icon: '👥',
+    icon: 'clients',
     intro: 'Сайт делается для ваших клиентов. Чем точнее портрет — тем точнее получится сайт.',
     questions: [
       {
@@ -185,7 +185,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'oldsite',
     title: 'Старый сайт',
-    icon: '🗄️',
+    icon: 'oldsite',
     intro: 'Этот блок появился, потому что у вас уже есть сайт. Он помогает понять, что берём с собой, а что оставляем в прошлом.',
     showIf: hasExistingSite,
     questions: [
@@ -225,7 +225,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'design',
     title: 'Дизайн и бренд',
-    icon: '🎨',
+    icon: 'design',
     questions: [
       {
         id: 'q30',
@@ -319,7 +319,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'content',
     title: 'Структура и контент',
-    icon: '🧱',
+    icon: 'content',
     questions: [
       {
         id: 'q43',
@@ -393,7 +393,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'features',
     title: 'Функционал',
-    icon: '⚙️',
+    icon: 'features',
     intro: 'Отметьте то, в чём уверены. Блоки интернет-магазина и языковых версий появятся, только если они вам нужны.',
     questions: [
       {
@@ -573,7 +573,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'tech',
     title: 'Техническая часть',
-    icon: '🛠️',
+    icon: 'tech',
     intro: 'Если что-то здесь непонятно — не страшно. Именно для таких случаев отмечайте «Не знаю», и я предложу решение.',
     questions: [
       {
@@ -685,7 +685,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'budget',
     title: 'Сроки и бюджет',
-    icon: '💰',
+    icon: 'budget',
     questions: [
       { id: 'q78', num: 78, type: 'date', label: 'Когда сайт должен быть готов?', area: 'Сроки', action: 'Зафиксировать дедлайн в плане работ' },
       { id: 'q79', num: 79, type: 'select', label: 'Насколько эта дата критична?', area: 'Сроки', options: ['Критично', 'Желательно', 'Неважно', 'Пока не знаю'] },
@@ -715,7 +715,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'open',
     title: 'Открытые вопросы',
-    icon: '💬',
+    icon: 'open',
     intro: 'Финальный блок. Здесь почти всё необязательно — пишите своими словами, как получится.',
     questions: [
       { id: 'q83', num: 83, type: 'text', label: 'Кто принимает финальное решение?', area: 'Согласование', group: 'Команда и согласование' },
